@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BV Financeira - Quitação de Empréstimos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128c7e;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: white;
+            color: #1e3a8a;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e3a8a;
+            margin-bottom: 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Simulation Form */
+        .simulation {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+        }
+
+        .form-container {
+            background: white;
+            color: #333;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .submit-btn {
+            background: #25d366;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background: #128c7e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            color: #1e3a8a;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #6b7280;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3a8a;
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #3b82f6;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #60a5fa;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+        }
+
+        /* Floating WhatsApp */
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+     Header 
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/emprestimo-bv.jpg-sTuMx1ck1aiaJGGPVatJ4lDXht5YD3.jpeg" alt="BV Financeira">
+                BV Financeira
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#simulation">Simulação</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+            <a href="https://wa.me/5599920180512" class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i>
+                Atendimento
+            </a>
+        </nav>
+    </header>
+
+     Hero Section 
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Quite Seus Empréstimos</h1>
+                <p>Negocie suas dívidas com condições especiais e recupere sua tranquilidade financeira</p>
+                <a href="#simulation" class="cta-button">Simular Quitação</a>
+            </div>
+        </div>
+    </section>
+
+     Services Section 
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Nossos Serviços</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Renegociação</h3>
+                    <p>Renegocie suas dívidas com condições especiais e prazos flexíveis para sua realidade financeira.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Simulação Online</h3>
+                    <p>Simule sua quitação online de forma rápida e segura, com propostas personalizadas.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Quitação à Vista</h3>
+                    <p>Quite suas dívidas à vista com descontos especiais de até 90% do valor original.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Parcelamento</h3>
+                    <p>Parcele sua dívida em condições especiais com entrada facilitada e juros reduzidos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     Simulation Section 
+    <section id="simulation" class="simulation">
+        <div class="container">
+            <h2 class="section-title">Simule Sua Quitação</h2>
+            <div class="form-container">
+                <form id="simulationForm">
+                    <div class="form-group">
+                        <label for="cpf">📋 CPF: *</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required maxlength="14">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">👤 Nome Completo: *</label>
+                        <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">📱 Telefone: *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(99) 99999-9999" required maxlength="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">📧 E-mail: *</label>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="debt-value">💰 Valor da Dívida: *</label>
+                        <input type="text" id="debt-value" name="debt-value" placeholder="R$ 0,00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment-type">💳 Forma de Pagamento: *</label>
+                        <select id="payment-type" name="payment-type" required>
+                            <option value="">Selecione uma opção</option>
+                            <option value="vista">À Vista (com desconto)</option>
+                            <option value="parcelado">Parcelado (condições especiais)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Fazer Simulação
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+     About Section 
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Sobre a BV Financeira</h2>
+                    <p>A BV Financeira é uma instituição financeira sólida e confiável, especializada em soluções de crédito e renegociação de dívidas.</p>
+                    <p>Com anos de experiência no mercado, oferecemos as melhores condições para que você possa quitar suas dívidas e recuperar sua tranquilidade financeira.</p>
+                    <p>Nossa missão é proporcionar soluções financeiras acessíveis e personalizadas para cada cliente.</p>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">500K+</div>
+                        <div class="stat-label">Clientes Atendidos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">R$ 2B+</div>
+                        <div class="stat-label">Em Negociações</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Satisfação</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Atendimento</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     Footer 
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BV Financeira</h3>
+                    <p>Sua solução em renegociação de dívidas e empréstimos.</p>
+                    <p><strong>CNPJ:</strong> 01.149.953/0001-89</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/5599920180512"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-phone"></i> +55 99 2018-0512</p>
+                    <p><i class="fas fa-envelope"></i> contato@bvfinanceira.com.br</p>
+                    <p><i class="fas fa-map-marker-alt"></i> São Paulo - SP</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Serviços</h3>
+                    <a href="#services">Renegociação de Dívidas</a>
+                    <a href="#services">Quitação à Vista</a>
+                    <a href="#services">Parcelamento</a>
+                    <a href="#simulation">Simulação Online</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Institucional</h3>
+                    <a href="#about">Sobre Nós</a>
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Trabalhe Conosco</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2020 BV Financeira. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+     Floating WhatsApp 
+    <a href="https://wa.me/5599920180512" class="floating-whatsapp" title="Fale conosco no WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission - Enhanced WhatsApp integration
+        document.getElementById('simulationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Validate required fields
+            if (!data.cpf || !data.name || !data.phone || !data.email || !data['debt-value'] || !data['payment-type']) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Create detailed WhatsApp message
+            const message = `🏦 *SIMULAÇÃO DE QUITAÇÃO - BV FINANCEIRA*
+
+📋 *DADOS DO CLIENTE:*
+👤 *Nome:* ${data.name}
+🆔 *CPF:* ${data.cpf}
+📱 *Telefone:* ${data.phone}
+📧 *E-mail:* ${data.email}
+
+💰 *INFORMAÇÕES DA DÍVIDA:*
+💵 *Valor da Dívida:* ${data['debt-value']}
+💳 *Forma de Pagamento:* ${data['payment-type'] === 'vista' ? 'À Vista' : 'Parcelado'}
+
+⏰ *Solicitação enviada em:* ${new Date().toLocaleString('pt-BR')}
+
+Gostaria de receber uma proposta de quitação com as melhores condições disponíveis.`;
+            
+            // Show success message
+            alert('✅ Simulação enviada com sucesso!\n\nVocê será redirecionado para o WhatsApp com todos os seus dados preenchidos.');
+            
+            // Send to WhatsApp with all form data
+            const whatsappUrl = `https://wa.me/5599920180512?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Optional: Clear form after submission
+            this.reset();
+        });
+
+        // CPF mask
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
+        });
+
+        // Phone mask
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{2})(\d)/, '($1) $2');
+            value = value.replace(/(\d{5})(\d)/, '$1-$2');
+            e.target.value = value;
+        });
+
+        // Money mask
+        document.getElementById('debt-value').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = (value / 100).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+            e.target.value = value;
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(30, 58, 138, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
